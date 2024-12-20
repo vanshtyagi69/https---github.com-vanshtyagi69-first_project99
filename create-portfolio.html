@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)file:///C:/Users/Admin/Desktop/PORTFOLIO/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Portfolio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            color: white;
+            padding: 50px 0;
+            text-align: center;
+        }
+
+        #create-portfolio-section {
+            text-align: center;
+            padding: 50px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 15px 30px;
+            background-color: #2575fc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        button:hover {
+            opacity: 0.8;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            padding: 15px 30px;
+            background-color: #ff6f61;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+        .back-button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <h1>Create Your Portfolio</h1>
+    </header>
+
+    <!-- Create Portfolio Section -->
+    <section id="create-portfolio-section">
+        <h1>Enter Your Details</h1>
+        <form id="portfolio-form">
+            <input type="text" id="name" placeholder="Your Name" required=""><br>
+            <input type="text" id="profession" placeholder="Your Profession" required=""><br>
+            <textarea id="about" placeholder="About Me" rows="5" required=""></textarea><br>
+            <textarea id="skills" placeholder="Skills" rows="5" required=""></textarea><br>
+            <textarea id="projects" placeholder="Projects" rows="5" required=""></textarea><br>
+            <button type="submit">Create Portfolio</button>
+        </form>
+
+        <!-- Back Button -->
+        <button class="back-button" onclick="window.location.href='index.html'">Back to Home</button>
+    </section>
+
+    <script>
+        // Handle form submission
+        document.getElementById('portfolio-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from refreshing the page
+
+            // Get form data
+            const name = document.getElementById('name').value;
+            const profession = document.getElementById('profession').value;
+            const about = document.getElementById('about').value;
+            const skills = document.getElementById('skills').value;
+            const projects = document.getElementById('projects').value;
+
+            // Prepare data to send to Google Sheets (via Google Apps Script)
+            const data = {
+                name: name,
+                profession: profession,
+                about: about,
+                skills: skills,
+                projects: projects
+            };
+
+            // Make an HTTP POST request to Google Apps Script Web App
+            fetch('https://script.google.com/u/0/home/projects/16fZhCmDAp0CfhvH4hkdKbuWHkAAt1H4cdQQyz7pAinBu5BXmJOgoVarr/edit', {  // Replace with your Apps Script URL
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: new URLSearchParams(data)  // Format the data to be sent as URL parameters
+            })
+            .then(response => response.text())
+            .then(responseText => {
+                alert(responseText); // Show success message
+                window.location.href = 'view-portfolio.html'; // Redirect after submission
+            })
+            .catch(error => {
+                alert('Error: ' + error);  // Show error message
+            });
+        });
+    </script>
+
+
+
+</body></html>
